@@ -1,14 +1,15 @@
 import json
-import pytest
 import uuid
 from unittest import mock
 
-from real_time_map import api
+import pytest
+
+from real_time_map import app
 
 
 @pytest.fixture
 def client():
-    return api.app.test_client()
+    return app.test_client()
 
 
 @pytest.fixture

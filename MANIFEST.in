@@ -1,0 +1,2 @@
+recursive-include real_time_map/templates *
+recursive-include real_time_map/static *

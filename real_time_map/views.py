@@ -1,12 +1,7 @@
-from flask import Flask, render_template, request
-from flask_socketio import SocketIO
+from flask import render_template, request
 from haversine import haversine
 
-async_mode = None
-
-app = Flask(__name__)
-app.config.from_envvar('LIVEMAP_SETTINGS')
-socketio = SocketIO(app)
+from real_time_map import app, socketio
 
 
 @app.route('/')
@@ -44,7 +39,3 @@ def delete_vehicle(vehicle_id):
                   namespace='/vehicles')
 
     return '', 204
-
-
-if __name__ == '__main__':
-    socketio.run(app)
