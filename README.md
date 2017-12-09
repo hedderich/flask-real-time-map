@@ -62,6 +62,10 @@ python setup.py test
 
 ## API reference
 
+When an error occurs, the server will respond with an error status code
+depending on the issue and additionally an response message in case it is a
+client side error (4xx).
+
 ### Register vehicle
 
 `POST /vehicles`
@@ -83,3 +87,38 @@ Response: 204 No Content
 `DELETE /vehicles/:uuid`
 
 Response: 204 No Content
+
+## Data storage
+
+In order to perform a subsequent analysis, the application will store
+information about every API request in a relational database with a connection
+defined in the [settings](example_settings.cfg).
+
+All timestamps are saved in UTC.
+
+Listed below are the available objects and their attributes.
+
+### vehicle
+
+Every vehicle that was ever registered and its universally unique identifier.
+
+* `vehicle_uuid`
+
+### vehicle_registration
+
+The event when a vehicle gets registered or deregistered. The latest event for
+each vehicle determines if this vehicle is allowed to send location data.
+
+* `vehicle`
+* `time`
+* `action`
+
+### vehicle_location
+
+The event when a vehicle emits a valid location (its position is inside of the
+"city boundaries").
+
+* `vehicle`
+* `time`
+* `lat`
+* `lng`
