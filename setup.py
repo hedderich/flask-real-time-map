@@ -16,9 +16,11 @@ setup(
     install_requires=[
         'flask',
         'flask-socketio',
+        'flask-sqlalchemy',
         'gevent',
         'gevent-websocket',
-        'haversine'
+        'haversine',
+        'python-dateutil'
     ],
     setup_requires=['pytest-runner'],
     tests_require=['pytest'],

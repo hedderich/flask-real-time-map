@@ -17,10 +17,14 @@ def vehicle():
     return str(uuid.uuid1())
 
 
+def register_vehicle(client, vehicle):
+    return client.post('/vehicles',
+                       data=json.dumps({'id': vehicle}),
+                       content_type='application/json')
+
+
 def test_register_vehicle(client, vehicle):
-    response = client.post('/vehicles',
-                           data=json.dumps({'id': vehicle}),
-                           content_type='application/json')
+    response = register_vehicle(client, vehicle)
 
     assert response.status_code == 204
     assert response.data == b''
@@ -28,6 +32,8 @@ def test_register_vehicle(client, vehicle):
 
 @mock.patch('flask_socketio.SocketIO.emit')
 def test_update_location(socketio, client, vehicle):
+    register_vehicle(client, vehicle)
+
     response = client.post('/vehicles/%s/locations' % vehicle,
                            data=json.dumps({'lat': 52.53,
                                             'lng': 13.403,
@@ -47,6 +53,8 @@ def test_update_location(socketio, client, vehicle):
 
 @mock.patch('flask_socketio.SocketIO.emit')
 def test_update_location_out_of_boundaries(socketio, client, vehicle):
+    register_vehicle(client, vehicle)
+
     response = client.post('/vehicles/%s/locations' % vehicle,
                            data=json.dumps({'lat': 51.2,
                                             'lng': 45.3,
@@ -66,6 +74,8 @@ def test_update_location_out_of_boundaries(socketio, client, vehicle):
 
 @mock.patch('flask_socketio.SocketIO.emit')
 def test_delete_vehicle(socketio, client, vehicle):
+    register_vehicle(client, vehicle)
+
     response = client.delete('/vehicles/%s' % vehicle)
 
     expected = mock.call('delete_vehicle',
