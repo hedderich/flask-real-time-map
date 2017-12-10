@@ -34,17 +34,21 @@ $(document).ready(function() {
 
     map.addLayer(clustermarkers);
 
-
     namespace = '/vehicles';
     var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port + namespace);
 
     socket.on('update_location', function(data) {
         if (data.vehicle_id in markers) {
+            var oldLatlgn = markers[data.vehicle_id].getLatLng()
             var newLatLng = new L.LatLng(data.lat, data.lng);
+            var bearing = L.GeometryUtil.bearing(oldLatlgn, newLatLng)
+
             markers[data.vehicle_id].setLatLng(newLatLng);
+            markers[data.vehicle_id].options.rotationAngle = bearing + 135;
         } else {
             markers[data.vehicle_id] = L.marker([data.lat, data.lng], {
-                icon: icon
+                icon: icon,
+                rotationAngle: -45
             }).bindPopup(data.vehicle_id);
             clustermarkers.addLayer(markers[data.vehicle_id]);
         }

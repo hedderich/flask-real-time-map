@@ -14,12 +14,12 @@ html, body, #live-map {
 }
 
 h1 {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     margin: 0;
 }
 
 .overlay {
-    color: #333;
+    color: #555;
     z-index: 2;
     background-color: rgba(255, 255, 255, 0.7);
     padding: 0.8rem;
@@ -32,14 +32,7 @@ h1 {
     width: 100%;
 }
 
-#footer {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 50%;
-}
-
 .marker-icon {
-  background-color: rgba(0, 120, 168, 0.8);
-  border-radius: 50%;
+    background-color: rgba(0, 120, 168, 0.8);
+    border-radius: 50% 50% 50% 0;
 }
