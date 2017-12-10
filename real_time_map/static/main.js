@@ -37,6 +37,10 @@ $(document).ready(function() {
     namespace = '/vehicles';
     var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port + namespace);
 
+    socket.on('connect', function() {
+        socket.emit('connected');
+    });
+
     socket.on('update_location', function(data) {
         if (data.vehicle_id in markers) {
             var oldLatlgn = markers[data.vehicle_id].getLatLng()

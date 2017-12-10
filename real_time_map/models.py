@@ -32,5 +32,10 @@ class VehicleLocationLog(db.Model):
     lat = db.Column(db.Float)
     lng = db.Column(db.Float)
 
+    @classmethod
+    def get_latest_entries(cls, since):
+        qs = cls.query.filter(cls.time > since).group_by(cls.vehicle_id).all()
+        return qs
+
 
 db.create_all()

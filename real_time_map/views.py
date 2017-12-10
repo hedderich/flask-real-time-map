@@ -1,5 +1,5 @@
 import uuid
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from dateutil.parser import parse as parse_iso
 from flask import render_template, request
@@ -11,6 +11,25 @@ from real_time_map import app, db, models, socketio
 @app.route('/')
 def index():
     return render_template('index.html', mapbox_key=app.config['MAPBOX_KEY'])
+
+
+@socketio.on('connected', namespace='/vehicles')
+def send_initial_data():
+    """
+    When a new client connects, send the latest valid waypoint of every vehicle
+    that showed up in the last 10 minutes back to this client.
+
+    """
+    since = datetime.utcnow() - timedelta(minutes=10)
+    entries = models.VehicleLocationLog.get_latest_entries(since)
+
+    for entry in entries:
+        socketio.emit('update_location',
+                      {'vehicle_id': entry.vehicle.vehicle_uuid,
+                       'lat': entry.lat,
+                       'lng': entry.lng},
+                      namespace='/vehicles',
+                      room=request.sid)
 
 
 @app.route('/vehicles', methods=['POST'])
