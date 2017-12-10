@@ -9,5 +9,5 @@ app.config.from_envvar('LIVEMAP_SETTINGS')
 socketio = SocketIO(app)
 db = SQLAlchemy(app)
 
-import real_time_map.models
-import real_time_map.views
+import real_time_map.models  # NOQA
+import real_time_map.views  # NOQA

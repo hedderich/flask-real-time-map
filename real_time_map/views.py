@@ -69,10 +69,10 @@ def update_location(vehicle_id):
 
     # Only store waypoints that are inside the "city boundaries"
     if haversine((data['lat'], data['lng']), (52.53, 13.403)) <= 3.5:
-        entry = models.VehicleLocationLog(vehicle=vehicle,
-                                          time=parse_iso(data['at']),
-                                          lat=data['lat'],
-                                          lng=data['lng'])
+        models.VehicleLocationLog(vehicle=vehicle,
+                                  time=parse_iso(data['at']),
+                                  lat=data['lat'],
+                                  lng=data['lng'])
         db.session.commit()
 
         socketio.emit('update_location',
@@ -96,9 +96,9 @@ def delete_vehicle(vehicle_id):
     if not vehicle:
         return 'Vehicle not found', 404
 
-    entry = models.VehicleRegistrationLog(vehicle=vehicle,
-                                          time=datetime.utcnow(),
-                                          action='deregister')
+    models.VehicleRegistrationLog(vehicle=vehicle,
+                                  time=datetime.utcnow(),
+                                  action='deregister')
     db.session.commit()
 
     socketio.emit('delete_vehicle',
