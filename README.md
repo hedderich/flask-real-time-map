@@ -2,6 +2,8 @@
 
 Display a live visualization of vehicle position data.
 
+<img src="https://raw.githubusercontent.com/hedderich/flask-real-time-map/master/screenshot.png" alt="Vehicle position data visualized on a map" height="360" />
+
 ## Setup
 
 It is recommended to use an environment that lets you install
@@ -46,8 +48,8 @@ flask run
 Relying on the
 [uwsgi-nginx-flask-docker](https://hub.docker.com/r/tiangolo/uwsgi-nginx-flask/)
 Docker image, it is possible to serve the API so far. However it does not
-work with the websocket connection yet, therefore the map will not be able to
-update itself.
+work with a steady websocket connection yet, therefore the map will not be able
+to update itself when served from a docker container.
 
 ```
 docker build -t live-map .
